@@ -146,6 +146,19 @@ server.delete('/foods/:id', function(req, res){
 });
 
 //DELETE /foods/category/:category
+server.delete('/foods/category/:categoryName', function(req, res){
+  Food.remove({category: req.params.categoryName}, function(err, document){
+    if(err){
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.status(200).json({
+        msg: 'Successfully deleted category'
+      });
+    }
+  });
+});
 
 
 server.listen(port, function(){
