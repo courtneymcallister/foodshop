@@ -78,6 +78,29 @@ server.get('/foods/category/:categoryName', function(req, res){
   });
 });
 
+//GET /foods/price/:dollarAmount
+server.get('/foods/price/:dollarAmount', function(req, res){
+  Food.find({price: req.params.dollarAmount}, function(err, documents){
+    if(err){
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.status(200).json({
+        foods: documents
+      });
+    }
+  });
+});
+
+//POST /foods
+
+//PUT /foods/:id
+
+//DELETE /foods/:id
+//DELETE /foods/category/:category
+
+
 server.listen(port, function(){
   console.log('Now listening on', port);
 })
