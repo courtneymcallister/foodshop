@@ -1,11 +1,17 @@
 var express = require('express');
 var server = express();
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
+
 var port = process.env.PORT || 8080;
 var mongoURI = process.env.MONGOURI || require('./secrets').mongoURI;
 
 //connect to the database
 mongoose.connect(mongoURI);
+
+//powerup -- middleware
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({extended: true}));
 
 //create schema
 var foodSchema = mongoose.Schema({
@@ -94,6 +100,20 @@ server.get('/foods/price/:dollarAmount', function(req, res){
 });
 
 //POST /foods
+server.post('/foods', function(req, res){
+  var food = new Food(req.body);
+  food.save(function(err, document){
+    if(err){
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.status(201).json({
+        msg: 'Success'
+      });
+    }
+  });
+});
 
 //PUT /foods/:id
 
