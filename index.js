@@ -116,6 +116,19 @@ server.post('/foods', function(req, res){
 });
 
 //PUT /foods/:id
+server.put('/foods/:id', function(req, res){
+  Food.findOneAndUpdate({_id: req.params.id}, req.body, function(err, document){
+    if(err){
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.status(200).json({
+        msg: 'Sucessfully updated'
+      });
+    }
+  });
+});
 
 //DELETE /foods/:id
 //DELETE /foods/category/:category
